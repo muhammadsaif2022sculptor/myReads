@@ -1,9 +1,22 @@
 import React from 'react'
+import { update } from './BooksAPI'
+import {Link} from 'react-router-dom'
 
-function Book({book}) {
+function Book({book, updateShelf, setView}) {
+
+
+    async function updateBook(e){
+        try{
+            await update(book, e.target.value)
+            updateShelf(e.target.value, book)
+        }catch(e){
+            console.log(e);
+        }
+    }
+
   return (
     <div>
-        <div className="book">
+        {(book.authors && book.imageLinks) && <div className="book">
             <div className="book-top">
                 <div
                 className="book-cover"
@@ -15,7 +28,9 @@ function Book({book}) {
                 }}
                 ></div>
                 <div className="book-shelf-changer">
-                <select>
+                <select defaultValue={book.shelf} 
+                onChange={updateBook}
+                >
                     <option value="none" disabled>
                     Move to...
                     </option>
@@ -28,15 +43,17 @@ function Book({book}) {
                 </select>
                 </div>
             </div>
-            <div className="book-title">
+            <Link to='/detail'>
+            <div className="book-title" onClick={() => setView(book)}>
                 {book.title}
             </div>
+            </Link>
             {book.authors.map(author => (
                 <div key={book.id + author}>
                     <div className="book-authors">{author}</div>
                 </div>
             ))}
-        </div>
+        </div>}
     </div>  
   )
 }

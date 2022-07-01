@@ -175,3 +175,23 @@ body,
   text-align: center;
   font-size: 0.8em;
 }
+
+.detail-body {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+
+.book-detail {
+  flex: 6;
+}
+
+.book-detail-title{
+  font-size: 2em;
+  font-weight: 700;
+}
+
+.book-detail-sub{
+  font-size: 0.7em;
+  margin-bottom: 5px;
+}
