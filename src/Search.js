@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import "./App.css";
-import {Link, useNavigate} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import Book from './Book'
 import { search } from './BooksAPI';
 
 function Search({books, updateShelf, setView}) {
     
-    const navigate = useNavigate()
     const [query, setQuery] = useState('')
     const [result, setResult] = useState([])
 
-    async function handleQuery(){
-        // if(query === '')  setResult([]) 
-        // else {
-        //     const name = books.filter(book => book.title.toLowerCase().includes(query.toLowerCase()))
-        //      const author = books.filter(book => !name.includes(book) && book.authors.map(auth => auth.toLowerCase().includes(query.toLowerCase())).includes(true))
-        //     setResult([...name,...author])
-        // }
+
+    useEffect(() => {
+      const handleQuery = () => {
         if(query.length>0){
         search(query.trim()).then(data => {
             if(data.error) console.log(data.error)
@@ -31,16 +26,12 @@ function Search({books, updateShelf, setView}) {
                     })
                     if(!found) d.shelf = 'none'
                 })
-                console.log(query,data)
                 setResult(data)
             }
         }).catch(e => console.log('here',e))
         }
-        // console.log(query,res)
     }
-
-    useEffect(() => {
-        handleQuery()
+      query === '' ? setResult([]) : handleQuery()
     },[query])
 
 
@@ -50,7 +41,6 @@ function Search({books, updateShelf, setView}) {
           <div className="search-books-bar">
             <Link to='/'
               className="close-search"
-            //    onClick={() => navigate('/')}
             >
               Close
             </Link>

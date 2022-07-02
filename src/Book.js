@@ -1,6 +1,7 @@
 import React from 'react'
 import { update } from './BooksAPI'
 import {Link} from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 function Book({book, updateShelf, setView}) {
 
@@ -31,7 +32,7 @@ function Book({book, updateShelf, setView}) {
                 <select defaultValue={book.shelf} 
                 onChange={updateBook}
                 >
-                    <option value="none" disabled>
+                    <option disabled>
                     Move to...
                     </option>
                     <option value="currentlyReading">
@@ -56,6 +57,11 @@ function Book({book, updateShelf, setView}) {
         </div>}
     </div>  
   )
+}
+Book.prototype = {
+    book: PropTypes.object.isRequired,
+    updateShelf: PropTypes.func.isRequired,
+    setView: PropTypes.func.isRequired
 }
 
 export default Book

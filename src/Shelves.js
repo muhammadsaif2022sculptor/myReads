@@ -1,9 +1,14 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import Shelf from './Shelf'
+import PropTypes from 'prop-types'
 
 function Shelves({books, updateShelf, setView}) {
 
+  const shelvesDetail = [{id: 'shelf1', title: 'Currently Reading', filter: 'currentlyReading'},
+                        {id: 'shelf2', title: 'Want to Read', filter: 'wantToRead'},
+                        {id: 'shelf3', title: 'Read', filter: 'read'}
+                      ]
 
     return(
     <div>
@@ -13,9 +18,11 @@ function Shelves({books, updateShelf, setView}) {
           </div>
           <div className="list-books-content">
             <div>  
-              <Shelf title={'Currently Reading'} books={books.filter(book => book.shelf === 'currentlyReading')}  updateShelf={updateShelf} setView={setView}/>
-              <Shelf title={'Want to Read'} books={books.filter(book => book.shelf === 'wantToRead')} updateShelf={updateShelf} setView={setView}/>
-              <Shelf title={'Read'} books={books.filter(book => book.shelf === 'read')} updateShelf={updateShelf} setView={setView}/>
+              {shelvesDetail.map(s => (
+                <div key={s.id}>
+                  <Shelf title={s.title} books={books.filter(book => book.shelf === s.filter)} updateShelf={updateShelf} setView={setView}/>
+                </div>
+              ))}
             </div>
           </div>
           <div className="open-search">
@@ -24,6 +31,11 @@ function Shelves({books, updateShelf, setView}) {
         </div>
     </div>
     )
+}
+Shelves.prototype = {
+  books : PropTypes.array.isRequired,
+  updateShelf: PropTypes.func.isRequired,
+  setView: PropTypes.func.isRequired
 }
 
 export default Shelves

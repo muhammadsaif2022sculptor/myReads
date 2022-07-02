@@ -11,13 +11,10 @@ function App() {
   const [books, setBooks] = useState([])
   const [bookView, setBookView] = useState({})
   
-  const setData = async () => {
-    try{
-      const data = await getAll()
-      setBooks(data)
-    } catch(e){
-      console.log(e);
-    }
+  const setData = () => {
+      getAll().then(data => {
+        if(data) setBooks(data) 
+      }).catch(e => console.log(e))
   }
 
   function updateShelf(shelf, book){
