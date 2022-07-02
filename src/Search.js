@@ -14,7 +14,9 @@ function Search({books, updateShelf, setView}) {
       const handleQuery = () => {
         if(query.length>0){
         search(query.trim()).then(data => {
-            if(data.error) console.log(data.error)
+            if(data.error) {
+              setResult([])
+              console.log(data.error)}
             else {
                 data.forEach(d => {
                     let found = false
@@ -32,11 +34,12 @@ function Search({books, updateShelf, setView}) {
         }
     }
       query === '' ? setResult([]) : handleQuery()
-    },[query])
+    },[query,books])
 
 
   return (
     <div>
+
         {result && <div className="search-books">
           <div className="search-books-bar">
             <Link to='/'
@@ -55,7 +58,7 @@ function Search({books, updateShelf, setView}) {
           </div>
           <div className="search-books-results">
             <ol className="books-grid">
-                {result.map(book => (
+                {query && result.map(book => (
                     <li key={book.id}>
                         <Book book={book} updateShelf={updateShelf} setView={setView}/>
                     </li>
